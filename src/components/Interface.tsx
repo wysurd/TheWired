@@ -1,5 +1,103 @@
-import { Check } from 'lucide-react';
-import type { Module } from '../data/modules';
-export function Stat({label,value,suffix,sub,icon,children}:{label:string;value:string;suffix?:string;sub:string;icon:React.ReactNode;children?:React.ReactNode}){return <div className="panel stat"><div className="stat-label">{label}<span>{icon}</span></div><div className="stat-value">{value}<small>{suffix}</small></div><p>{sub}</p>{children}</div>}
-export function PanelTitle({icon,title,right}:{icon:React.ReactNode;title:string;right?:React.ReactNode}){return <div className="panel-title"><span>{icon}{title}</span><span>{right}</span></div>}
-export function Quiz({module,answer,onAnswer,onRetry}:{module:Module;answer:number|null;onAnswer:(i:number)=>void;onRetry:()=>void}){return <section className="quiz"><div className="eyebrow">MEMORY CHECKPOINT</div><h3>{module.question}</h3><div className="quiz-options">{module.answers.map((a,i)=><button key={a} disabled={answer!==null} className={answer===i?(i===module.correct?'correct':'incorrect'):answer!==null&&i===module.correct?'correct':''} onClick={()=>onAnswer(i)}><span>{String.fromCharCode(65+i)}</span>{a}{answer===i&&<Check size={15}/>}</button>)}</div>{answer!==null&&<div role="status" className="quiz-feedback"><p>{answer===module.correct?'Signal retained. Correct.':`Not quite. ${module.answers[module.correct]} is correct. Revisit the mental model above.`}</p><button className="text-button" onClick={onRetry}>Try checkpoint again</button></div>}</section>}
+import { Check } from "lucide-react";
+import type { Module } from "../data/modules";
+export function Stat({
+  label,
+  value,
+  suffix,
+  sub,
+  icon,
+  children,
+}: {
+  label: string;
+  value: string;
+  suffix?: string;
+  sub: string;
+  icon: React.ReactNode;
+  children?: React.ReactNode;
+}) {
+  return (
+    <div className="panel stat">
+      <div className="stat-label">
+        {label}
+        <span>{icon}</span>
+      </div>
+      <div className="stat-value">
+        {value}
+        <small>{suffix}</small>
+      </div>
+      <p>{sub}</p>
+      {children}
+    </div>
+  );
+}
+export function PanelTitle({
+  icon,
+  title,
+  right,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  right?: React.ReactNode;
+}) {
+  return (
+    <div className="panel-title">
+      <span>
+        {icon}
+        {title}
+      </span>
+      <span>{right}</span>
+    </div>
+  );
+}
+export function Quiz({
+  module,
+  answer,
+  onAnswer,
+  onRetry,
+}: {
+  module: Module;
+  answer: number | null;
+  onAnswer: (i: number) => void;
+  onRetry: () => void;
+}) {
+  return (
+    <section className="quiz">
+      <div className="eyebrow">MEMORY CHECKPOINT</div>
+      <h3>{module.question}</h3>
+      <div className="quiz-options">
+        {module.answers.map((a, i) => (
+          <button
+            key={a}
+            disabled={answer !== null}
+            className={
+              answer === i
+                ? i === module.correct
+                  ? "correct"
+                  : "incorrect"
+                : answer !== null && i === module.correct
+                  ? "correct"
+                  : ""
+            }
+            onClick={() => onAnswer(i)}
+          >
+            <span>{String.fromCharCode(65 + i)}</span>
+            {a}
+            {answer === i && <Check size={15} />}
+          </button>
+        ))}
+      </div>
+      {answer !== null && (
+        <div role="status" className="quiz-feedback">
+          <p>
+            {answer === module.correct
+              ? "Signal retained. Correct."
+              : `Not quite. ${module.answers[module.correct]} is correct. Revisit the mental model above.`}
+          </p>
+          <button className="text-button" onClick={onRetry}>
+            Try checkpoint again
+          </button>
+        </div>
+      )}
+    </section>
+  );
+}
